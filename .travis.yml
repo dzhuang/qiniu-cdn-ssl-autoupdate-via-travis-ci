@@ -1,0 +1,8 @@
+sudo: required
+language: python
+services:
+  - docker
+
+script:
+  - docker run --rm  -it -e Namesilo_Key="$Namesilo_Key" -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 900 -d "$DOMAIN"
+  - python $(pwd)/update_cdn_sslcert.py
