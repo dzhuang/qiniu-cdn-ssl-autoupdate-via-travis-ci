@@ -1,0 +1,20 @@
+name: cron
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+    schedule:
+        - cron: "* */1440 * * *"
+
+jobs:
+    acme:
+        name: Update via acme.sh
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install dep
+              run: pip install -r requirements.txt
+            - name: Update
+              run: docker run --rm  -it -e Namesilo_Key="$Namesilo_Key" -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d "$DOMAIN"
+            - name: deploy
+              run: python $(pwd)/update_cdn_sslcert.py
