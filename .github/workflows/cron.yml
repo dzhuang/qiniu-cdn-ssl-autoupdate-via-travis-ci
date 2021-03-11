@@ -16,6 +16,14 @@ jobs:
             - name: Install Python dependencies
               uses: py-actions/py-dependency-install@v2
             - name: Update
+              shell: bash
+              env:
+                  Namesilo_Key: ${{secrets.NAMESILO_KEY}}
               run: docker run --rm  -it -e Namesilo_Key="$Namesilo_Key" -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d "$DOMAIN"
             - name: deploy
+              shell: bash
+              env:
+                  ACCESS_KEY: ${{secrets.ACCESS_KEY}}
+                  SECRET_KEY: ${{secrets.SECRET_KEY}}
+                  DOMAIN: ${{secrets.DOMAIN}}
               run: python $(pwd)/update_cdn_sslcert.py
