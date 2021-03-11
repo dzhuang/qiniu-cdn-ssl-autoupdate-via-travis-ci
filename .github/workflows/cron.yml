@@ -19,7 +19,7 @@ jobs:
               shell: bash
               env:
                   Namesilo_Key: ${{secrets.NAMESILO_KEY}}
-              run: docker run --rm  -it -e Namesilo_Key="$Namesilo_Key" -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d "$DOMAIN"
+              run: docker run --rm  -i -e Namesilo_Key="$Namesilo_Key" -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d "$DOMAIN"
             - name: deploy
               shell: bash
               env:
