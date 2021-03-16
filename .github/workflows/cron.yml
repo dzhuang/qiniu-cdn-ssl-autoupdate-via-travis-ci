@@ -22,7 +22,7 @@ jobs:
                   retry_on: error
                   timeout_minutes: 31
                   max_attempts: 3
-                  command: docker run --rm -i -e Namesilo_Key=${{ secrets.NAMESILO_KEY }} -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d ${{ secrets.DOMAIN }} --quiet
+                  command: docker run --rm -i -e Namesilo_Key=${{ secrets.NAMESILO_KEY }} -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d ${{ secrets.DOMAIN }}
             - name: deploy
               shell: bash
               env:
