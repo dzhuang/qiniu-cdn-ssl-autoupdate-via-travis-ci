@@ -16,8 +16,13 @@ jobs:
             - name: Install Python dependencies
               uses: py-actions/py-dependency-install@v2
             - name: Update
-              shell: bash
-              run: docker run --rm -i -e Namesilo_Key=${{ secrets.NAMESILO_KEY }} -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 1800 -d ${{ secrets.DOMAIN }}
+              uses: nick-invision/retry@v2
+              with:
+                  shell: bash
+                  retry_on: error
+                  timeout_minutes: 18
+                  max_attempts: 3
+                  command: docker run --rm -i -e Namesilo_Key=${{ secrets.NAMESILO_KEY }} -v "$(pwd)/out":/acme.sh neilpang/acme.sh --issue --dns dns_namesilo --dnssleep 900 -d ${{ secrets.DOMAIN }}
             - name: deploy
               shell: bash
               env:
